@@ -27,9 +27,5 @@ def atoms(formula):
     if isinstance(formula, Not):
         return {formula.inner}
     if isinstance(formula, Implies) or isinstance(formula, And) or isinstance(formula, Or):
-        atom_array = []
-        for subformula in subformulas(formula):
-            if isinstance(subformula, Atom):
-                atom_array.append(subformula)
-        return atom_array
+        return atoms(formula.left).union(atoms(formula.right))
 
