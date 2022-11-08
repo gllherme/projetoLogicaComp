@@ -1,5 +1,15 @@
 from formulas import *
 
+
+def length(formula):
+    if isinstance(formula, Atom):
+        return 1
+    if isinstance(formula, Not):
+        return length(formula.inner) + 1
+    if isinstance(formula, Implies) or isinstance(formula, And) or isinstance(formula, Or):
+        return length(formula.left) + length(formula.right) + 1
+
+
 def subformulas(formula):
     if isinstance(formula, Atom):
         return {formula}
@@ -10,8 +20,16 @@ def subformulas(formula):
         sub2 = subformulas(formula.right)
         return {formula}.union(sub1).union(sub2)
 
-#  we have shown in class that, for all formula A, len(subformulas(A)) <= length(A).
 
-# def atoms(formula):
-#     if isinstance
-    
+def atoms(formula):
+    if isinstance(formula, Atom):
+        return {formula}
+    if isinstance(formula, Not):
+        return {formula.inner}
+    if isinstance(formula, Implies) or isinstance(formula, And) or isinstance(formula, Or):
+        atom_array = []
+        for subformula in subformulas(formula):
+            if isinstance(subformula, Atom):
+                atom_array.append(subformula)
+        return atom_array
+

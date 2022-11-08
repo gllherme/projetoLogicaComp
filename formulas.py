@@ -1,20 +1,22 @@
 class Formula:
     def __init__(self):
         pass
-    
+
+
 class Atom(Formula):
     def __init__(self, name):
         super().__init__()
         self.name = name
-        
+
     def __str__(self):
         return str(self.name)
-    
+
     def __eq__(self, other):
         return isinstance(other, Atom) and other.name == self.name
 
     def __hash__(self):
         return hash((self.name, 'atom'))
+
 
 # Implies(a -> b)
 class Implies(Formula):
@@ -22,15 +24,16 @@ class Implies(Formula):
         super().__init__()
         self.left = left
         self.right = right
-        
+
     def __str__(self):
         return f"({self.left} \u2794 {self.right})"
-    
+
     def __eq__(self, other):
         return isinstance(other, Implies) and other.left == self.left and other.right == self.right
 
     def __hash__(self):
         return hash((hash(self.left), hash(self.right), 'implies'))
+
 
 class Not(Formula):
 
