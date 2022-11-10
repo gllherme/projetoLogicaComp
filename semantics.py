@@ -1,65 +1,57 @@
 """The goal in this module is to define functions associated with the semantics of formulas in propositional logic. """
-
-
-from formulas import *
-from functions import atoms
+from functions import *
 
 
 def truth_value(formula, interpretation):
     if isinstance(formula, Atom):
         return interpretation[str(formula)]
 
-
     if isinstance(formula, Not):
         return not truth_value(formula.inner, interpretation)
-        
-        
+
     if isinstance(formula, And):
-        formulaLeft = truth_value(formula.left, interpretation)
-        formulaRight = truth_value(formula.right, interpretation)
-        
-        return formulaLeft and formulaRight
-    
-    
+        formula_left = truth_value(formula.left, interpretation)
+        formula_right = truth_value(formula.right, interpretation)
+
+        return formula_left and formula_right
+
     if isinstance(formula, Or):
-        formulaLeft = truth_value(formula.left, interpretation)
-        formulaRight = truth_value(formula.right, interpretation)
-        
-        return formulaLeft or formulaRight
-    
-    
+        formula_left = truth_value(formula.left, interpretation)
+        formula_right = truth_value(formula.right, interpretation)
+
+        return formula_left or formula_right
+
     if isinstance(formula, Implies):
-        formulaLeft = truth_value(formula.left, interpretation)
-        formulaRight = truth_value(formula.right, interpretation)
-        
-        if formulaLeft:
-            return formulaRight
-        else: 
+        formula_left = truth_value(formula.left, interpretation)
+        formula_right = truth_value(formula.right, interpretation)
+
+        if formula_left:
+            return formula_right
+        else:
             return True
-        
-    
-def is_logical_consequence(premises, conclusion):  # function TT-Entails? in the book AIMA.
-    """Returns True if the conclusion is a logical consequence of the set of premises. Otherwise, it returns False."""
-    pass
-    # ======== YOUR CODE HERE ========
 
 
-def is_logical_equivalence(formula1, formula2):
-    """Checks whether formula1 and formula2 are logically equivalent."""
-    pass
-    # ======== YOUR CODE HERE ========
+def satisfiability_checking(formula, atoms_list, interpretation):
+    if not atoms_list:
+        if truth_value(formula, interpretation):
+            return interpretation
+        else:
+            return False
 
+    atom = atoms_list.pop()
+    interpretation1 = interpretation | {str(atom): False}
+    interpretation2 = interpretation | {str(atom): True}
 
-def is_valid(formula):
-    """Returns True if formula is a logically valid (tautology). Otherwise, it returns False"""
-    pass
-    # ======== YOUR CODE HERE ========
+    result = satisfiability_checking(formula, atoms_list.copy(), interpretation1)
+    if result:
+        return result
+    return satisfiability_checking(formula, atoms_list.copy(), interpretation2)
 
 
 def satisfiability_brute_force(formula):
     """Checks whether formula is satisfiable.
     In other words, if the input formula is satisfiable, it returns an interpretation that assigns true to the formula.
     Otherwise, it returns False."""
-    pass
-    # ======== YOUR CODE HERE ========
-
+    interpretation = {}
+    # TODO: Implementar melhoria
+    return satisfiability_checking(formula, atoms(formula), interpretation)

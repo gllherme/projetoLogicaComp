@@ -1,5 +1,3 @@
-from functions import *
-from formulas import *
 from semantics import *
 
 
@@ -12,8 +10,9 @@ formula6 = Or(Not(And(Atom('p'), Atom('s'))), Atom('q'))  # ((¬(p /\ s)) v q)
 formula7 = Implies(Not(And(Atom('p'), Atom('s'))), And(Atom('q'), Atom('r')))  # ((¬(p /\ s)) -> (q /\ r))
 formula8 = Implies(Not(And(Atom('p'), Atom('s'))),
                    And(Atom('q'), Not(And(Atom('p'), Atom('s')))))  # ((¬(p /\ s)) -> (q /\ (¬(p /\ s))))
+formula9 = And(Not(Atom('p')), Atom('q'))  # ((¬p) ∧ q)
+formula10 = And(Atom('p'), And(Not(Atom('q')), Or(Atom('r'), Atom('s'))))  # (p ∧ ((¬q) ∧ (r ∨ s)))
 
+formulas = [formula1, formula2, formula3, formula4, formula5, formula6, formula7, formula8, formula9, formula10]
 
-interpretation = {'p': True, 'q': False, 's': True, 'r': False}
-
-print(truth_value(formula7, interpretation))
+print(satisfiability_brute_force(formula5))
