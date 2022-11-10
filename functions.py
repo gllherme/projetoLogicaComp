@@ -25,7 +25,7 @@ def atoms(formula):
     if isinstance(formula, Atom):
         return {formula}
     if isinstance(formula, Not):
-        return {formula.inner}
+        return atoms(formula.inner)
     if isinstance(formula, Implies) or isinstance(formula, And) or isinstance(formula, Or):
         return atoms(formula.left).union(atoms(formula.right))
 

@@ -15,4 +15,5 @@ formula10 = And(Atom('p'), And(Not(Atom('q')), Or(Atom('r'), Atom('s'))))  # (p 
 
 formulas = [formula1, formula2, formula3, formula4, formula5, formula6, formula7, formula8, formula9, formula10]
 
-print(satisfiability_brute_force(formula5))
+for formula in formulas:
+    print(satisfiability_brute_force(formula))
