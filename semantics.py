@@ -40,8 +40,8 @@ def satisfiability_checking(formula, atoms_list, interpretation):
             return False
 
     atom = atoms_list.pop()
-    interpretation1 = interpretation | {str(atom): True}
-    interpretation2 = interpretation | {str(atom): False}
+    interpretation1 = interpretation | {str(atom): False}
+    interpretation2 = interpretation | {str(atom): True}
 
     result = satisfiability_checking(formula, atoms_list.copy(), interpretation1)
     if result:
