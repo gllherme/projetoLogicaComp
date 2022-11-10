@@ -32,6 +32,7 @@ def truth_value(formula, interpretation):
 
 
 def satisfiability_checking(formula, atoms_list, interpretation):
+    # for atom in atoms_list:
     if not atoms_list:
         if truth_value(formula, interpretation):
             return interpretation
@@ -39,8 +40,8 @@ def satisfiability_checking(formula, atoms_list, interpretation):
             return False
 
     atom = atoms_list.pop()
-    interpretation1 = interpretation | {str(atom): False}
-    interpretation2 = interpretation | {str(atom): True}
+    interpretation1 = interpretation | {str(atom): True}
+    interpretation2 = interpretation | {str(atom): False}
 
     result = satisfiability_checking(formula, atoms_list.copy(), interpretation1)
     if result:
@@ -52,6 +53,12 @@ def satisfiability_brute_force(formula):
     """Checks whether formula is satisfiable.
     In other words, if the input formula is satisfiable, it returns an interpretation that assigns true to the formula.
     Otherwise, it returns False."""
+
     interpretation = {}
-    # TODO: Implementar melhoria
+
+    # obs.: a melhoria sugerida no vídeo, na verdade, aumenta o tempo de execução
+    for subformula in subformulas(formula):
+        if isinstance(subformula, And):
+            interpretation = interpretation | satisfiability_brute_force(subformula.left)
+
     return satisfiability_checking(formula, atoms(formula), interpretation)
