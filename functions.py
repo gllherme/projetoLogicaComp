@@ -21,11 +21,10 @@ def subformulas(formula):
         return {formula}.union(sub1).union(sub2)
 
 
-def atoms(formula):
+def atoms_list(formula):
     if isinstance(formula, Atom):
         return {formula}
     if isinstance(formula, Not):
-        return atoms(formula.inner)
+        return atoms_list(formula.inner)
     if isinstance(formula, Implies) or isinstance(formula, And) or isinstance(formula, Or):
-        return atoms(formula.left).union(atoms(formula.right))
-
+        return atoms_list(formula.left).union(atoms_list(formula.right))

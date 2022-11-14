@@ -61,4 +61,4 @@ def satisfiability_brute_force(formula):
         if isinstance(subformula, And):
             interpretation = interpretation | satisfiability_brute_force(subformula.left)
 
-    return satisfiability_checking(formula, atoms(formula), interpretation)
+    return satisfiability_checking(formula, atoms_list(formula), interpretation)
